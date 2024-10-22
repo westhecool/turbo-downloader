@@ -46,7 +46,11 @@ class HeaderProcessor:
             self.headers[key.lower()] = value.strip()
         self._line_count += 1
 def http_get_nobody(url, headers={}):
-    r = urllib.request.Request(url, headers=headers, method='GET')
+    headers2 = {}
+    for key, value in headers.items():
+        headers2[key.lower()] = value
+    headers2['user-agent'] = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/130.0.0.0 Safari/537.36'
+    r = urllib.request.Request(url, headers=headers2, method='GET')
     r = urllib.request.urlopen(r, context=ssl.create_default_context())
     d = {
         'status': r.getcode(),
